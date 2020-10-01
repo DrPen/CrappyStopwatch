@@ -116,10 +116,12 @@ public final class GUI {
         /*** what time is it boi? ***/
         while(true) {
             thread1.sleep(10);
-            thread2.sleep(10);
-            thread3.sleep(10);
             time1.setText(Double.toString(t1.getTime()));
+
+            thread2.sleep(10);
             time2.setText(Double.toString(t2.getTime()));
+
+            thread3.sleep(10);
             time3.setText(Double.toString(t3.getTime()));
         }
     }
