@@ -1,0 +1,131 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+public final class GUI {
+    private static void _initWindow() throws InterruptedException {
+        JFrame mainFrame = new JFrame("TimeToDie");
+        mainFrame.setSize(500, 500);
+        mainFrame.setLayout(new GridLayout(3,4));
+
+        JButton start1 = new JButton("Start 1");
+        JButton stop1 = new JButton("Stop 1");
+        JButton reset1 = new JButton("Reset 1");
+        JLabel time1 = new JLabel();
+
+
+        JButton start2 = new JButton("Start 2");
+        JButton stop2 = new JButton("Stop 2");
+        JButton reset2 = new JButton("Reset 2");
+        JLabel time2 = new JLabel();
+
+
+        JButton start3 = new JButton("Start 3");
+        JButton stop3 = new JButton("Stop 3");
+        JButton reset3 = new JButton("Reset 3");
+        JLabel time3 = new JLabel();
+
+
+        mainFrame.add(start1);
+        mainFrame.add(stop1);
+        mainFrame.add(reset1);
+        mainFrame.add(time1);
+
+        mainFrame.add(start2);
+        mainFrame.add(stop2);
+        mainFrame.add(reset2);
+        mainFrame.add(time2);
+
+        mainFrame.add(start3);
+        mainFrame.add(stop3);
+        mainFrame.add(reset3);
+        mainFrame.add(time3);
+
+
+        mainFrame.setVisible(true);
+
+
+        /*** threading the needle ***/
+        Timer t1 = new Timer();
+        Timer t2 = new Timer();
+        Timer t3 = new Timer();
+
+        Thread thread1 = new Thread(t1);
+        Thread thread2 = new Thread(t2);
+        Thread thread3 = new Thread(t3);
+        thread1.start();
+        thread3.start();
+        thread2.start();
+
+
+
+        /*** fondling the events ***/
+        class StartButtonHandler implements ActionListener{
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (start1.equals(e.getSource()))
+                    t1.timerState = Timer.timerFunction.START;
+                if (start2.equals(e.getSource()))
+                    t2.timerState = Timer.timerFunction.START;
+                if (start3.equals(e.getSource()))
+                    t3.timerState = Timer.timerFunction.START;
+            }
+        }
+
+        class StopButtonHandler implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (stop1.equals(e.getSource()))
+                    t1.timerState = Timer.timerFunction.STOP;
+                if (stop2.equals(e.getSource()))
+                    t2.timerState = Timer.timerFunction.STOP;
+                if (stop3.equals(e.getSource()))
+                    t3.timerState = Timer.timerFunction.STOP;
+            }
+        }
+
+
+        class ResetButtonHandler implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (reset1.equals(e.getSource()))
+                    t1.timerState = Timer.timerFunction.RESET;
+                if (reset2.equals(e.getSource()))
+                    t2.timerState = Timer.timerFunction.RESET;
+                if (reset3.equals(e.getSource()))
+                    t3.timerState = Timer.timerFunction.RESET;
+            }
+        }
+
+        start1.addActionListener(new StartButtonHandler());
+        start2.addActionListener(new StartButtonHandler());
+        start3.addActionListener(new StartButtonHandler());
+
+        stop1.addActionListener(new StopButtonHandler());
+        stop2.addActionListener(new StopButtonHandler());
+        stop3.addActionListener(new StopButtonHandler());
+
+        reset1.addActionListener(new ResetButtonHandler());
+        reset2.addActionListener(new ResetButtonHandler());
+        reset3.addActionListener(new ResetButtonHandler());
+
+
+
+        /*** what time is it boi? ***/
+        while(true) {
+            thread1.sleep(10);
+            thread2.sleep(10);
+            thread3.sleep(10);
+            time1.setText(Double.toString(t1.getTime()));
+            time2.setText(Double.toString(t2.getTime()));
+            time3.setText(Double.toString(t3.getTime()));
+        }
+    }
+
+
+    public static void main(String[] args) throws InterruptedException {
+        GUI._initWindow();
+    }
+}
